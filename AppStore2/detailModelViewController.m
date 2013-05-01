@@ -51,7 +51,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     managedObjectContext = [[DataSingleton sharedInstance] managedObjectContext];
-    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)didReceiveMemoryWarning

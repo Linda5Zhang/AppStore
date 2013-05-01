@@ -58,15 +58,6 @@
     
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-//    [self presentViewController:dmvc animated:YES completion:nil];
-//    [dmvc.detailCollectionView resignFirstResponder];
-    
-//    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-
 # pragma mark - download data method
 /*******************************************************************************
  * @method          downloadData
