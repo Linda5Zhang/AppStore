@@ -1,4 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="Test1.xcdatamodel" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
-    <elements/>
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="2061" systemVersion="12D78" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Application" representedClassName="Application" syncable="YES">
+        <attribute name="appDescrip" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="appStars" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="iconData" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="trackName" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="artist" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Artist" inverseName="applications" inverseEntity="Artist" syncable="YES"/>
+    </entity>
+    <entity name="Artist" representedClassName="Artist" syncable="YES">
+        <attribute name="artistName" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="applications" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Application" inverseName="artist" inverseEntity="Application" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Application" positionX="-308" positionY="192" width="128" height="118"/>
+        <element name="Artist" positionX="-495" positionY="27" width="128" height="73"/>
+    </elements>
 </model>
