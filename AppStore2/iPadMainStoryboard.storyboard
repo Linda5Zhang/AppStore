@@ -127,11 +127,11 @@
             </objects>
             <point key="canvasLocation" x="-2214" y="-1711"/>
         </scene>
-        <!--Navigation Controller - Item-->
+        <!--Navigation Controller-->
         <scene sceneID="Azd-Nx-Wuk">
             <objects>
                 <navigationController definesPresentationContext="YES" id="0mq-Ej-tpJ" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="NW3-Te-3o9"/>
+                    <tabBarItem key="tabBarItem" systemItem="search" id="NW3-Te-3o9"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Izk-Uk-xvL">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -255,7 +255,7 @@
                                             <outlet property="priceLabel" destination="ILa-4r-rqU" id="RBz-Zc-wAU"/>
                                             <outlet property="screenShotImageView" destination="eqw-2B-tGa" id="56k-EV-Zph"/>
                                             <outlet property="starsLabel" destination="D9o-lg-pdM" id="bH3-ro-8Fi"/>
-                                            <segue destination="7qZ-Bf-XUY" kind="modal" identifier="showDetail" id="Xsl-aN-QpS"/>
+                                            <segue destination="7qZ-Bf-XUY" kind="push" identifier="showDetail" id="Xsl-aN-QpS"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -303,7 +303,7 @@
             <objects>
                 <viewController id="7qZ-Bf-XUY" customClass="DetailModelViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="qsz-9n-SQ2">
-                        <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
+                        <rect key="frame" x="0.0" y="64" width="768" height="911"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="qbg-KI-Ljh">
@@ -439,7 +439,6 @@
                                             <outlet property="detailDevName" destination="i9L-sn-gmF" id="CW4-BG-NA9"/>
                                             <outlet property="detailIconImageView" destination="aFp-Qp-Wto" id="P8x-IZ-E40"/>
                                             <outlet property="detailStars" destination="8La-ek-3RL" id="lEp-Nv-iBE"/>
-                                            <segue destination="FLm-Sr-3p7" kind="modal" identifier="backSegue" id="fCO-kZ-syQ"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -540,13 +539,13 @@
         <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
         </class>
+        <class className="UICollectionViewLayout" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
+        </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
-    <inferredMetricsTieBreakers>
-        <segue reference="z5H-Hh-3Zz"/>
-    </inferredMetricsTieBreakers>
 </document>
