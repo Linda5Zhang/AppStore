@@ -110,6 +110,15 @@
 			name = singleton;
 			sourceTree = "<group>";
 		};
+		3D91825017A1D83E0048B93B /* GTMHTTPFetcher */ = {
+			isa = PBXGroup;
+			children = (
+				3DC2A5CC172B20060090E120 /* GTMHTTPFetcher.h */,
+				3DC2A5CD172B20060090E120 /* GTMHTTPFetcher.m */,
+			);
+			name = GTMHTTPFetcher;
+			sourceTree = "<group>";
+		};
 		3DC2A59A172B1FA10090E120 = {
 			isa = PBXGroup;
 			children = (
@@ -143,6 +152,7 @@
 			children = (
 				3DC2A5B8172B1FA10090E120 /* AppDelegate.m */,
 				3DC2A5B7172B1FA10090E120 /* AppDelegate.h */,
+				3D91825017A1D83E0048B93B /* GTMHTTPFetcher */,
 				3D167EE3172DEB7700AAA4BB /* singleton */,
 				3D167EE2172DEAE500AAA4BB /* core data */,
 				3DC2A5CA172B1FCC0090E120 /* iphone */,
@@ -179,8 +189,6 @@
 				3DC2A5DA172B73460090E120 /* MyCustomCollectionViewCell.m */,
 				3DC2A5D3172B21FD0090E120 /* MySearchViewController.h */,
 				3DC2A5D4172B21FD0090E120 /* MySearchViewController.m */,
-				3DC2A5CC172B20060090E120 /* GTMHTTPFetcher.h */,
-				3DC2A5CD172B20060090E120 /* GTMHTTPFetcher.m */,
 			);
 			name = iphone;
 			sourceTree = "<group>";

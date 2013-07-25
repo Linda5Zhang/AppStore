@@ -12,6 +12,7 @@
 #import "DetailModelViewController.h"
 
 @interface MySearchViewController ()
+@property int flag;
 @end
 
 @implementation MySearchViewController
@@ -20,10 +21,10 @@
     NSCache *previousCachedData;
     NSMutableArray *gotDataOnline;
     NSMutableArray *gotFromCachedData;
-    NSMutableArray *showAsRelated;
-    NSMutableArray *sortedDataOne;
-    NSMutableArray *sortedDataTwo;
-    NSMutableArray *unSortedData;
+    NSArray *showAsArtist;
+    NSArray *showAsPrice;
+    NSArray *showAsRating;
+    NSArray *showedData;
     DetailModelViewController *dmvc;
 }
 
@@ -39,12 +40,6 @@
     return self;
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -53,9 +48,45 @@
     
     [myCollectionView setDataSource:self];
     [myCollectionView setDelegate:self];
+
+    UIBarButtonItem *artistButton = [[UIBarButtonItem alloc] initWithTitle:@"Artist" style:UIBarButtonItemStyleBordered target:self action:@selector(sortByArtist)];
+    UIBarButtonItem *priceButton = [[UIBarButtonItem alloc] initWithTitle:@"Price" style:UIBarButtonItemStyleBordered target:self action:@selector(sortByPrice)];
+    UIBarButtonItem *ratingButton = [[UIBarButtonItem alloc] initWithTitle:@"Rating" style:UIBarButtonItemStyleBordered target:self action:@selector(sortByRating)];
+    
+    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:artistButton, priceButton, ratingButton, nil];
+    
+
+    UILabel *myLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 20)];
+    myLabel.text = @"Search By :";
+    UIView *labelView = myLabel;
+    labelView.backgroundColor = [UIColor clearColor];
+    UIBarButtonItem *searchByButton = [[UIBarButtonItem alloc] initWithCustomView:labelView];
+    self.navigationItem.leftBarButtonItem = searchByButton;
     
     dmvc = [[DetailModelViewController alloc] init];
     
+}
+
+# pragma mark - Search by different mata data
+- (void)sortByArtist
+{
+    [mySearchBar resignFirstResponder];
+    self.flag = 3;
+    [self callSearch];
+}
+
+- (void)sortByPrice
+{
+    [mySearchBar resignFirstResponder];
+    self.flag = 2;
+    [self callSearch];
+}
+
+- (void)sortByRating
+{
+    [mySearchBar resignFirstResponder];
+    self.flag = 1;
+    [self callSearch];
 }
 
 # pragma mark - download data method
@@ -86,86 +117,47 @@
             
             //store the results to a NSMutableArray 'gotDataOnline'
             gotDataOnline = [NSMutableArray arrayWithArray:[results objectForKey:@"results"]];
-            NSLog(@"Got the data from itune api, and store in an NSMutable Array called: gotDatOnline ");
-            NSLog(@"show got data from on line : %@",gotDataOnline);
+//            NSLog(@"Got the data from itune api, and store in an NSMutable Array called: gotDatOnline ");
+//            NSLog(@"show got data from on line : %@",gotDataOnline);
             
             //also store the results to 'previousCachedData' NSCache
             //remember that user has already searched the data before
             [previousCachedData setObject:gotDataOnline forKey:@"PreviousData"];
-            NSLog(@"stored previous searched data in NSCache");
-            NSLog(@"show previous searched data in NSCahe: %@",previousCachedData);
-
-            //determine how to sort the data and show it
-            if (isRelatedAndArtist != FALSE) {
-                //show it according to related and artistName
-                [self searchByRelatedAndArtistName];
-            } else {
-                //just show it as default 
-                showAsRelated = [[NSMutableArray alloc] init];
-                showAsRelated = gotDataOnline;
-            }
+//            NSLog(@"stored previous searched data in NSCache");
+//            NSLog(@"show previous searched data in NSCahe: %@",previousCachedData);
             
-            NSLog(@"show related data : %@",showAsRelated);
+            if (self.flag == 1) {//Sort by average rating
+                NSSortDescriptor *ratingDescriptor = [[NSSortDescriptor alloc] initWithKey:@"averageUserRating" ascending:YES];
+                NSArray *sortDescriptors = [NSArray arrayWithObject:ratingDescriptor];
+                showAsRating = [[NSArray alloc] initWithArray:[gotDataOnline sortedArrayUsingDescriptors:sortDescriptors]];
+                NSLog(@"show the sorted array by rating: %@",showAsRating);
+                showedData = [[NSArray alloc]initWithArray:showAsRating];
+                
+            }else if(self.flag == 2){//Sort by price
+                NSSortDescriptor *priceDescriptor = [[NSSortDescriptor alloc] initWithKey:@"price" ascending:YES];
+                NSArray *sortDescriptors = [NSArray arrayWithObject:priceDescriptor];
+                showAsPrice = [[NSArray alloc] initWithArray:[gotDataOnline sortedArrayUsingDescriptors:sortDescriptors]];
+                NSLog(@"show the sorted array by price: %@",showAsPrice);
+                showedData = [[NSArray alloc]initWithArray:showAsPrice];
+                
+            }else if(self.flag == 3){//Sort by artist name
+                NSSortDescriptor *artistDescriptor = [[NSSortDescriptor alloc] initWithKey:@"artistName" ascending:YES];
+                NSArray *sortDescriptors = [NSArray arrayWithObject:artistDescriptor];
+                showAsArtist = [[NSArray alloc] initWithArray:[gotDataOnline sortedArrayUsingDescriptors:sortDescriptors]];
+                NSLog(@"show the sorted array by artist name : %@",showAsArtist);
+                showedData = [[NSArray alloc]initWithArray:showAsArtist];
+                
+            }else{//Default sorting
+                showedData = gotDataOnline;
+            }
+
             [myCollectionView reloadData];
+   
         }
     }];
     
 }
 
-# pragma mark - sort by related&artiest name (in ascending order) method
-/*******************************************************************************
- * @method          sort the data by related and artistname
- * @abstract        
- * @description     sort the default data by two rules.
- *                  First:A user search 'yelp', he/she wants to see the yelp app
- *                        in the first place, then wants to see related apps 
- *                  Second:If the results' app names are not very related to 
- *                         the user searched app name, then sort by artist name
- *                          (in the ascendering order)
- ******************************************************************************/
-- (void)searchByRelatedAndArtistName
-{
-    showAsRelated = [[NSMutableArray alloc] init];
-    sortedDataOne = [[NSMutableArray alloc] init];
-    sortedDataTwo = [[NSMutableArray alloc] init];
-    unSortedData = [[NSMutableArray alloc] init];
-   
-    for (int i = 0; i < gotDataOnline.count; i++) {
-        
-        NSString *gotAppName = [[gotDataOnline objectAtIndex:i] objectForKey:@"trackName"];
-        NSString *gotAppNameNoSpace = [gotAppName stringByReplacingOccurrencesOfString:@" "  withString:@""];
-        NSString *gotSubAppName = [gotAppNameNoSpace substringWithRange:NSMakeRange(0, gotAppName.length/2)];
-        NSString *gotAppNameFirst = [gotAppName componentsSeparatedByString:@" "][0];
-        NSString *searchSubAppName = [searchData substringWithRange:NSMakeRange(0,searchData.length/2)];
-        
-        if ([gotAppNameNoSpace caseInsensitiveCompare: searchData] == NSOrderedSame) {
-            [sortedDataOne addObject:[gotDataOnline objectAtIndex:i]];
-            NSLog(@"sorted data one array is : %@",sortedDataOne);
-        } else if (([gotAppNameFirst caseInsensitiveCompare:searchSubAppName] == NSOrderedSame) || ([gotSubAppName caseInsensitiveCompare: searchSubAppName] == NSOrderedSame)) {
-            [sortedDataTwo addObject:[gotDataOnline objectAtIndex:i]];
-        } else {
-            [unSortedData addObject:[gotDataOnline objectAtIndex:i]];
-        }
-    }
-    
-    NSLog(@"the unsorted data array is : %@",unSortedData);
-
-    //sort as developer name in ascendering order
-    NSSortDescriptor *sortDescriptor;
-    sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"artistName" ascending:YES];
-    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-    [unSortedData sortUsingDescriptors:sortDescriptors];
-    NSLog(@"sorted Data one is : %@",unSortedData);
-    
-    //First add the related results,
-    //then add the not very related results by sorting artist name
-    [showAsRelated addObjectsFromArray:sortedDataOne];
-    [showAsRelated addObjectsFromArray:sortedDataTwo];
-    [showAsRelated addObjectsFromArray:unSortedData];
-    NSLog(@"show related&artistname  data : %@",showAsRelated);
-    
-    [myCollectionView reloadData];
-}
 
 # pragma mark - search method
 /*******************************************************************************
@@ -183,8 +175,8 @@
         [self downloadData:searchData];
     } else {
         
-        NSLog(@"Previous searched data are stored in NSCache : ");
-        NSLog(@"Show previous searched data : %@",gotFromCachedData);
+//        NSLog(@"Previous searched data are stored in NSCache : ");
+//        NSLog(@"Show previous searched data : %@",gotFromCachedData);
         
         int num = [gotFromCachedData count];
         NSLog(@"countNum is %d",num);
@@ -199,24 +191,14 @@
             }
         }
         if (isCached != FALSE) {
-            showAsRelated = gotFromCachedData;
+            showedData = gotFromCachedData;
             [myCollectionView reloadData];
+         
         }else{
             [self downloadData:searchData];
         }
         
     }
-}
-
-/*******************************************************************************
- * @method          search by related and artist name (in ascending order)
- * @abstract        click the 'Related&Artist Name' button, call this method
- * @description
- ******************************************************************************/
-- (IBAction)searchByArtistButton:(id)sender {
-    [mySearchBar resignFirstResponder];
-    isRelatedAndArtist = TRUE;
-    [self callSearch];
 }
 
 #pragma mark - UISearchBar Delegate methods
@@ -240,7 +222,7 @@
 #pragma mark - UICollectionView Datasource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return [showAsRelated count];
+    return [showedData count];
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
@@ -256,21 +238,21 @@
         
         return myCustomCell;
     } else {
-        NSLog(@"Collection View :: show related data : %@",showAsRelated);
+        NSLog(@"Collection View :: showed data : %@",showedData);
         
-        myCustomCell.appNameLabel.text = [[showAsRelated objectAtIndex:indexPath.row] objectForKey:@"trackName"];
-        myCustomCell.developerNameLabel.text = [[showAsRelated objectAtIndex:indexPath.row] objectForKey:@"artistName"];
-        NSNumber *starNum = [[showAsRelated objectAtIndex:indexPath.row] objectForKey:@"averageUserRating"];
+        myCustomCell.appNameLabel.text = [[showedData objectAtIndex:indexPath.row] objectForKey:@"trackName"];
+        myCustomCell.developerNameLabel.text = [[showedData objectAtIndex:indexPath.row] objectForKey:@"artistName"];
+        NSNumber *starNum = [[showedData objectAtIndex:indexPath.row] objectForKey:@"averageUserRating"];
         myCustomCell.starsLabel.text = [starNum stringValue];
-        myCustomCell.genresLabel.text = [[showAsRelated objectAtIndex:indexPath.row] objectForKey:@"primaryGenreName"];
-        myCustomCell.priceLabel.text = [[showAsRelated objectAtIndex:indexPath.row] objectForKey:@"formattedPrice"];
+        myCustomCell.genresLabel.text = [[showedData objectAtIndex:indexPath.row] objectForKey:@"primaryGenreName"];
+        myCustomCell.priceLabel.text = [[showedData objectAtIndex:indexPath.row] objectForKey:@"formattedPrice"];
         
-        NSString *strIconURL = [[showAsRelated objectAtIndex:indexPath.row] objectForKey:@"artworkUrl60"];
+        NSString *strIconURL = [[showedData objectAtIndex:indexPath.row] objectForKey:@"artworkUrl60"];
         NSURL *iconURL = [[NSURL alloc] initWithString:strIconURL];
         NSData *iconURLData = [[NSData alloc] initWithContentsOfURL:iconURL];
         myCustomCell.iconImageView.image = [UIImage imageWithData:iconURLData];
         
-        NSMutableArray *arrayScreenShotURL = [[showAsRelated objectAtIndex:indexPath.row] objectForKey:@"screenshotUrls"];
+        NSMutableArray *arrayScreenShotURL = [[showedData objectAtIndex:indexPath.row] objectForKey:@"screenshotUrls"];
         NSString *strScreenShotURL = arrayScreenShotURL[0];
         NSURL *screenShotURL = [[NSURL alloc] initWithString:strScreenShotURL];
         NSData *screenShotURLData = [[NSData alloc] initWithContentsOfURL:screenShotURL];
@@ -292,7 +274,7 @@
     NSLog(@"Segue to detail...");
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
         NSIndexPath *indexpath = [[myCollectionView indexPathsForSelectedItems] lastObject];
-        NSDictionary *theSelected = [showAsRelated objectAtIndex:indexpath.row];
+        NSDictionary *theSelected = [showedData objectAtIndex:indexpath.row];
         
         dmvc= [segue destinationViewController];
         dmvc.currentAppDetail = theSelected;

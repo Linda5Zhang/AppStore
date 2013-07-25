@@ -15,6 +15,6 @@
 
 @property (weak, nonatomic) IBOutlet UISearchBar *mySearchBar;
 @property (weak, nonatomic) IBOutlet UICollectionView *myCollectionView;
-- (IBAction)searchByArtistButton:(id)sender;
+
 
 @end

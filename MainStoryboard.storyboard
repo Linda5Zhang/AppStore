@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12D78" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="pg5-x8-4Zd">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12E55" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="pg5-x8-4Zd">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
@@ -447,13 +447,7 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" systemItem="search" id="MnR-zH-4AC"/>
-                    <navigationItem key="navigationItem" id="2fv-WW-ps5">
-                        <barButtonItem key="rightBarButtonItem" title="Related &amp; Artist Name" id="p6C-SC-mee">
-                            <connections>
-                                <action selector="searchByArtistButton:" destination="iKb-WP-Tww" id="4lU-k3-1JH"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="2fv-WW-ps5"/>
                     <connections>
                         <outlet property="myCollectionView" destination="ngp-cl-rac" id="UFB-BA-u8z"/>
                         <outlet property="mySearchBar" destination="HnZ-lM-qf8" id="9wH-SF-cdK"/>
@@ -492,69 +486,6 @@
             <point key="canvasLocation" x="-1032" y="-551"/>
         </scene>
     </scenes>
-    <classes>
-        <class className="DetailModelViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/DetailModelViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="buyButton:"/>
-                <relationship kind="action" name="favButton:"/>
-                <relationship kind="outlet" name="detailCollectionView" candidateClass="UICollectionView"/>
-            </relationships>
-        </class>
-        <class className="MyCustomCollectionViewCell" superclassName="UICollectionViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/MyCustomCollectionViewCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="appNameLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="detailAppName" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="detailDescriptionLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="detailDescriptionTextView" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="detailDevName" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="detailIconImageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="detailStars" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="developerNameLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="favAppName" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="favDescripTextView" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="favDescription" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="favDevName" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="favIconImageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="favStars" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="genresLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="iconImageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="priceLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="screenShotImageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="starsLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="MyFavoritesViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/MyFavoritesViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="favCollectionView" candidateClass="UICollectionView"/>
-            </relationships>
-        </class>
-        <class className="MySearchViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/MySearchViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="searchByArtistButton:"/>
-                <relationship kind="outlet" name="myCollectionView" candidateClass="UICollectionView"/>
-                <relationship kind="outlet" name="mySearchBar" candidateClass="UISearchBar"/>
-            </relationships>
-        </class>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-        <class className="UICollectionReusableView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionReusableView.h"/>
-        </class>
-        <class className="UICollectionViewCell" superclassName="UICollectionReusableView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewCell.h"/>
-        </class>
-        <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
-        </class>
-        <class className="UICollectionViewLayout" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
